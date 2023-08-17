@@ -42,11 +42,5 @@ source $VENV_FILE
 pip install -r requirements.txt
 echo "$(pwd)/shared" > venv/lib/python3.11/site-packages/shared.pth
 
-# Install Node Version Manager
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-source ~/.bashrc
-
-# Install latest version of node and install dependencies
-nvm install node
-cd frontend
-npm install
+# Correct permissions
+chown -R $USER:$USER data/ keys/ venv/

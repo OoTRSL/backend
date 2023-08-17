@@ -3,7 +3,7 @@
 A full stack app to automatically, efficiently, and reliably update the leaderboard for the Random Settings League in Ocarina of Time Randomizer.
 
 ## Installation
-1. Required python packages can be installed by running `pip3 install -r requirements.txt` in the root project directory.
+To fully set up the python environment, enter the `installation/` directory and run `sudo ./install.sh`
 
 ## Required Secrets
 
@@ -17,21 +17,6 @@ submit_form = <google sheets id>
 ```
 
 `keys/google_sheets.json`: Google credentials file
-
-
-## Frontend
-
-The following commands are available from the `frontend/` directory.
-
-#### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-#### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
 
 ## Available Scripts
