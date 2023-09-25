@@ -33,3 +33,19 @@ CREATE TABLE IF NOT EXISTS entrants (
   FOREIGN KEY (race_slug) REFERENCES racelist (slug)  -- Foreign key constraint
   FOREIGN KEY (user_id) REFERENCES players (userid)   -- Foreign key constraint
 );
+
+CREATE TABLE IF NOT EXISTS discord_users (
+  userid_discord TEXT PRIMARY KEY,    -- Unique discord userid snowflake
+  name TEXT,                          -- Chosen discord username
+  discriminator INTEGER,              -- Discord discriminator
+  userid_racetime TEXT,               -- Racetime userid, if connected
+  last_seed_roll DATETIME             -- Last time the user rolled a seed with RSLBot
+);
+
+CREATE TABLE IF NOT EXISTS seedlog (
+  seedid INTEGER PRIMARY KEY,     -- Unique seed id used in https://ootrandomizer.com/seed/get?id=<seedid>
+  userid_discord TEXT,            -- Discord userid snowflake of the user who rolled the seed
+  date DATETIME,                  -- Datetime for when the seed was rolled
+  unlocked BOOLEAN DEFAULT 0,     -- Flag if the spoiler log has been unlocked
+  FOREIGN KEY (userid_discord) REFERENCES discord_users (userid_discord)
+);

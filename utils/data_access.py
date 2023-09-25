@@ -7,7 +7,7 @@ import settings
 
 
 def create_connection(db_path):
-    """ Create database connection and execute any queries that should be run every time. """
+    """ Create and return a database connection """
     conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA foreign_keys = ON;")
     return conn
