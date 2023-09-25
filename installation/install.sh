@@ -40,7 +40,7 @@ fi
 # Install python dependencies
 source $VENV_FILE
 pip install -r requirements.txt
-echo "$(pwd)/shared" > venv/lib/python3.11/site-packages/shared.pth
+echo "$(pwd)/utils" > venv/lib/python3.11/site-packages/shared.pth
 
 # Correct permissions
 chown -R $USER:$USER data/ keys/ venv/
