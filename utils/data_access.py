@@ -49,11 +49,36 @@ def delete_databases():
     print("All databases deleted.")
 
 
+def _build_column_list(columns):
+    if columns is None:
+        return '*'
+    return ', '.join(columns)
+
+# ===========================================
+# Table: racelist
+# ===========================================
 def race_exists(conn, slug):
     c = conn.cursor()
     c.execute("SELECT COUNT(*) FROM racelist WHERE slug = ?", (slug,))
     exists = c.fetchone()[0]
     return exists
+
+
+def select_racelist_by_slug(conn, slug, columns=None):
+    c = conn.cursor()
+    select_columns = _build_column_list(columns)
+    c.execute(f"SELECT {select_columns} FROM racelist WHERE slug = ?", (slug,))
+    entrants = c.fetchall()
+    return entrants
+
+
+def fetch_all_races(conn, season, columns=None):
+    c = conn.cursor()
+    select_columns = _build_column_list(columns)
+    where_clause = f"WHERE season = {season}"
+    c.execute(f"SELECT {select_columns} FROM racelist {where_clause} ORDER BY ended_at ASC")
+    races = c.fetchall()
+    return races
 
 
 def insert_racelist(conn, race_data):
@@ -89,21 +114,7 @@ def delete_race(conn, slug):
     conn.commit()
 
 
-def fetch_all_races(conn, season, columns=None):
-    c = conn.cursor()
 
-    # Build the SELECT statement
-    if columns is None:
-        select_columns = "*"
-    else:
-        select_columns = ", ".join(columns)
-
-    # Build the WHERE clause for the season
-    where_clause = f"WHERE season = {season}"
-
-    c.execute(f"SELECT {select_columns} FROM racelist {where_clause} ORDER BY ended_at ASC")
-    races = c.fetchall()
-    return races
 
 
 def insert_player(conn, player):
@@ -231,7 +242,7 @@ def load_json_races():
     Deletes the json afterwards. (NOT YET IMPLEMENTED)
     """
     newdata = {}
-    json_list = glob.glob(os.path.join(settings.script_dir, "add_races", "**.json"))
+    json_list = glob.glob(os.path.join(settings.data_dir, "add_races", "**.json"))
     if len(json_list) < 1:
         return
 
